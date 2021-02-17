@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.0/milligram.css">
+
+    <title>Расписание</title>
+</head>
+<body>
+<div class="container">
+    <h1>Расписание дня</h1>
+    <table>
+        <caption>{{ schedule[0][0] }} день недели</caption>
+        <thead>
+        <tr>
+            <th>Номер</th>
+            <th>Время</th>
+            <th>Предмет</th>
+            <th>Преподаватель</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for dayofweek, numberoflesson, lesson, teacher, odd  in schedule %}
+            <tr>
+                <td>{{ numberoflesson }}</td>
+                <td>{{ schedule_time[numberoflesson-1][1] }} - {{ schedule_time[numberoflesson-1][2] }}</td>
+                <td>{{ lesson }}</td>
+                <td>{{ teacher }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
