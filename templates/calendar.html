@@ -14,26 +14,27 @@
 </head>
 <body>
 <div class="container">
-    <h1>Расписание дня</h1>
+    <h1>Календарь</h1>
     <table>
-        <caption>{{ schedule[0][0] }} день недели</caption>
         <thead>
         <tr>
-            <th>Номер пары</th>
-            <th>Время</th>
-            <th>Предмет</th>
-            <th>Преподаватель</th>
+            <th>Пн</th>
+            <th>Вт</th>
+            <th>Ср</th>
+            <th>Чт</th>
+            <th>Пт</th>
+            <th>Сб</th>
+            <th>Вс</th>
         </tr>
         </thead>
         <tbody>
-        {% for dayofweek, numberoflesson, lesson, teacher, odd  in schedule %}
-            <tr>
-                <td>{{ numberoflesson }}</td>
-                <td>{{ schedule_time[numberoflesson-1][1] }} - {{ schedule_time[numberoflesson-1][2] }}</td>
-                <td>{{ lesson }}</td>
-                <td>{{ teacher }}</td>
-            </tr>
-        {% endfor %}
+            {% for week in month %}
+                <tr>
+                    {% for day in week %}
+                        <td><a href="/day/{{ day }}">{{ day }}</a></td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

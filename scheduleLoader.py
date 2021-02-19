@@ -18,7 +18,8 @@ class Loader():
                             ''')
 
     def get_lessons(self, dayofweek=1, is_odd_week=True) -> list:
-        lessons = self.conn.execute('''SELECT * FROM "lessons" WHERE "dayofweek" = ? and "odd" = ? ''', [dayofweek, int(is_odd_week)])
+        lessons = self.conn.execute('''SELECT * FROM "lessons" WHERE "dayofweek" = ? and "odd" = ? ''',
+                                    [dayofweek, int(is_odd_week)])
         lessons = self.conn.fetchall()
         return lessons
 
@@ -26,3 +27,8 @@ class Loader():
         self.conn.execute('''SELECT * FROM "time" ''')
         time = self.conn.fetchall()
         return time
+
+
+# d = Loader()
+# s = d.get_lessons(8)
+# print(s)

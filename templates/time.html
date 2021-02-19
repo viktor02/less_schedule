@@ -14,24 +14,19 @@
 </head>
 <body>
 <div class="container">
-    <h1>Расписание дня</h1>
+    <h1>Расписание звонков</h1>
     <table>
-        <caption>{{ schedule[0][0] }} день недели</caption>
         <thead>
         <tr>
             <th>Номер пары</th>
             <th>Время</th>
-            <th>Предмет</th>
-            <th>Преподаватель</th>
         </tr>
         </thead>
         <tbody>
-        {% for dayofweek, numberoflesson, lesson, teacher, odd  in schedule %}
+        {% for numberoflesson, time_start, time_end in schedule_time %}
             <tr>
                 <td>{{ numberoflesson }}</td>
-                <td>{{ schedule_time[numberoflesson-1][1] }} - {{ schedule_time[numberoflesson-1][2] }}</td>
-                <td>{{ lesson }}</td>
-                <td>{{ teacher }}</td>
+                <td>{{ time_start }} - {{ time_end }}</td>
             </tr>
         {% endfor %}
         </tbody>
