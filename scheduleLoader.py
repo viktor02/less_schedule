@@ -27,8 +27,3 @@ class Loader():
         self.conn.execute('''SELECT * FROM "time" ''')
         time = self.conn.fetchall()
         return time
-
-
-# d = Loader()
-# s = d.get_lessons(8)
-# print(s)

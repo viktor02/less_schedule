@@ -41,7 +41,6 @@ def monthday_page(monthday):
         return "Wrong value"
 
 
-
 @app.route('/time')
 def time_page():
     schedule_loader = Loader()
@@ -60,6 +59,7 @@ def calendar_page(month=current_month, year=current_year):
         return render_template("calendar.html", month=month_iter)
     except calendar.IllegalMonthError:
         return "Wrong month value"
+
 
 @app.route('/about')
 def about_page():
