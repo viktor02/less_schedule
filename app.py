@@ -15,14 +15,24 @@ is_odd_week = True if datetime.datetime.today().isocalendar()[1] % 2 == 0 else F
 
 
 @app.route('/')
-@app.route('/day/<dayofweek>/')
-def main_page(dayofweek=current_day_of_week):
+def main_page():
     schedule_loader = Loader()
-    schedule = schedule_loader.get_lessons(dayofweek, is_odd_week)
+
+    schedule = schedule_loader.get_lessons(current_day_of_week, is_odd_week)
     time = schedule_loader.get_time()
 
-    if not schedule:
-        return main_page(1)
+    return render_template('index.html', schedule=schedule, schedule_time=time)
+
+
+@app.route('/day/<monthday>/')
+def monthday_page(monthday):
+    schedule_loader = Loader()
+
+    weekday = datetime.date(current_year, current_month, int(monthday)).isoweekday()
+    is_odd_week = True if datetime.datetime.today().isocalendar()[1] % 2 == 0 else False
+
+    schedule = schedule_loader.get_lessons(weekday, is_odd_week)
+    time = schedule_loader.get_time()
 
     return render_template('index.html', schedule=schedule, schedule_time=time)
 
@@ -35,7 +45,8 @@ def time_page(dayofweek=current_day_of_week):
     return render_template('time.html', schedule_time=lesson_time)
 
 
-@app.route('/calendar')
+@app.route('/calendar/')
+@app.route('/calendar/<month>')
 def calendar_page(month=current_month, year=current_year):
     cal = calendar.Calendar()
     month_iter = cal.monthdayscalendar(year, month)
