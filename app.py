@@ -1,48 +1,46 @@
+import calendar
+import datetime
+
 from flask import Flask
 from flask import render_template
 
 from scheduleLoader import Loader
 
-import datetime
-import calendar
-
 app = Flask(__name__)
 
-current_month = datetime.datetime.today().month
-current_year = datetime.datetime.today().year
+today = datetime.datetime.today()
+current_day = today.day
+current_month = today.month
+current_year = today.year
 
 
 @app.route('/')
 def main_page():
-    current_weekday = datetime.datetime.today().isoweekday()
-    is_odd_week = True if datetime.datetime.today().isocalendar()[1] % 2 == 0 else False
-
-    schedule_loader = Loader()
-
-    schedule = schedule_loader.get_lessons(current_weekday, is_odd_week)
-    time = schedule_loader.get_time()
-
-    return render_template('index.html', schedule=schedule, schedule_time=time)
+    return monthday_page(current_day, current_month)
 
 
-@app.route('/day/<int:monthday>/')
-def monthday_page(monthday):
+@app.route('/day/<int:day>/')
+@app.route('/date/<int:month>/<int:day>')
+def monthday_page(day, month=current_month):
+    """ Render page with schedule"""
     try:
         schedule_loader = Loader()
 
-        weekday = datetime.date(current_year, current_month, monthday).isoweekday()
-        is_odd_week = True if datetime.datetime.today().isocalendar()[1] % 2 == 0 else False
+        weekday = datetime.date(current_year, month, day).isoweekday()
+        is_odd_week = True if datetime.date(current_year, month, day).isocalendar()[1] % 2 == 0 else False
 
         schedule = schedule_loader.get_lessons(weekday, is_odd_week)
         time = schedule_loader.get_time()
+        notes = schedule_loader.get_notes(month, day)
 
-        return render_template('index.html', schedule=schedule, schedule_time=time)
+        return render_template('index.html', schedule=schedule, schedule_time=time, notes=notes)
     except ValueError:
         return "Wrong value"
 
 
 @app.route('/time')
 def time_page():
+    """ Render page with lessons time"""
     schedule_loader = Loader()
     lesson_time = schedule_loader.get_time()
 
@@ -52,6 +50,7 @@ def time_page():
 @app.route('/calendar/')
 @app.route('/calendar/<int:month>')
 def calendar_page(month=current_month, year=current_year):
+    """ Render calendar page """
     try:
         cal = calendar.Calendar()
         month_iter = cal.monthdayscalendar(year, month)

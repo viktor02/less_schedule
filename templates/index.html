@@ -1,19 +1,8 @@
-<!doctype html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+{% extends 'base.html' %}
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.0/milligram.css">
+{% block title %}Расписание{% endblock %}
 
-    <title>Расписание</title>
-</head>
-<body>
-<div class="container">
+{% block content %}
     <h1>Расписание дня</h1>
     <table>
         <thead>
@@ -35,8 +24,15 @@
         {% endfor %}
         </tbody>
     </table>
-    <a href="/calendar/" class="button button-outline">Вернуться к календарю</a>
-</div>
-
-</body>
-</html>
+    <a href="{{ url_for('calendar_page') }}" class="button button-outline">Вернуться к календарю</a>
+    <div class="notes">
+        {% if notes %}
+            <h3>Заметки дня: </h3>
+            <ul>
+                {% for note in notes %}
+                    <li>{{ note[0] }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}

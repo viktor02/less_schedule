@@ -1,7 +1,7 @@
 import sqlite3
 
 
-class Loader():
+class Loader:
     def __init__(self, dbname='schedule.db'):
         conn = sqlite3.connect(dbname)
         self.conn = conn.cursor()
@@ -14,7 +14,15 @@ class Loader():
                             "time"	INTEGER,
                             "lesson"	TEXT,
                             "teacher"	TEXT,
-                            "odd"	INTEGER)
+                            "odd"	INTEGER)''')
+        self.conn.execute('''CREATE TABLE IF NOT EXISTS "time" (
+                            "numberoflesson"	INTEGER,
+                            "time_start"	TEXT,
+                            "time_end"	TEXT)''')
+        self.conn.execute('''CREATE TABLE IF NOT EXISTS "notes" (
+                            "day"	INTEGER,
+                            "month"	INTEGER,
+                            "note"	TEXT)
                             ''')
 
     def get_lessons(self, dayofweek=1, is_odd_week=True) -> list:
@@ -27,3 +35,9 @@ class Loader():
         self.conn.execute('''SELECT * FROM "time" ''')
         time = self.conn.fetchall()
         return time
+
+    def get_notes(self, month, day) -> list:
+        self.conn.execute(''' SELECT note FROM "notes" WHERE "month" = ? and "day" = ?''',
+                          [month, day])
+        notes = self.conn.fetchall()
+        return notes
