@@ -20,7 +20,11 @@
             {% for week in month %}
                 <tr>
                     {% for day in week %}
-                        <td><a href="/day/{{ day }}">{{ day }}</a></td>
+                        {% if day != 0 %}
+                            <td><a href="/day/{{ day }}">{{ day }}</a></td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
                     {% endfor %}
                 </tr>
             {% endfor %}
