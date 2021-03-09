@@ -18,7 +18,8 @@ class Loader:
         self.conn.execute('''CREATE TABLE IF NOT EXISTS "time" (
                             "numberoflesson"	INTEGER,
                             "time_start"	TEXT,
-                            "time_end"	TEXT)''')
+                            "time_end"	TEXT,
+                            "is_short_day"	INTEGER)''')
         self.conn.execute('''CREATE TABLE IF NOT EXISTS "notes" (
                             "day"	INTEGER,
                             "month"	INTEGER,
@@ -31,8 +32,9 @@ class Loader:
         lessons = self.conn.fetchall()
         return lessons
 
-    def get_time(self) -> list:
-        self.conn.execute('''SELECT * FROM "time" ''')
+    def get_time(self, is_short_day=False) -> list:
+        self.conn.execute('''SELECT * FROM "time" WHERE "is_short_day" = ?''',
+                          [int(is_short_day)])
         time = self.conn.fetchall()
         return time
 

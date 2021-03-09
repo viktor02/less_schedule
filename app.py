@@ -2,7 +2,7 @@ import calendar
 import datetime
 
 from flask import Flask
-from flask import render_template
+from flask import render_template, redirect, url_for
 
 from scheduleLoader import Loader
 
@@ -16,7 +16,10 @@ current_year = today.year
 
 @app.route('/')
 def main_page():
-    return monthday_page(current_day, current_month)
+    # crutch: fixes a bug with incorrect display of the schedule for another day
+    # todo: replace with function call
+    url = url_for('monthday_page', day=current_day)
+    return redirect(url)
 
 
 @app.route('/day/<int:day>/')
