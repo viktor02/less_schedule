@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Календарь{% endblock %}
+
+{% block content %}
+    <h1>Добавить заметку</h1>
+    <form method="POST" action="/notes">
+        {{ form.note.label }} {{ form.note }}
+        {{ form.date.label }} {{ form.date }}
+
+        <input type="submit" value="Go">
+    </form>
+    <div>
+    <h2>Все заметки</h2>
+    <ul>
+    {% for year,month, day, note in notes %}
+        <li>{{ day }}/{{ month }}/{{ year }} {{ note }}</li>
+    {% endfor %}
+    </ul>
+
+    </div>
+{% endblock %}

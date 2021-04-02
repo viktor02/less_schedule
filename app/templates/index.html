@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Расписание{% endblock %}
+
+{% block content %}
+    <h1>Расписание дня</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Номер пары</th>
+            <th>Время</th>
+            <th>Предмет</th>
+            <th>Преподаватель</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for dayofweek, numberoflesson, lesson, teacher, odd  in schedule %}
+            <tr>
+                <td>{{ numberoflesson }}</td>
+                <td>{{ schedule_time[numberoflesson-1][1] }} - {{ schedule_time[numberoflesson-1][2] }}</td>
+                <td>{{ lesson }}</td>
+                <td>{{ teacher }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('calendar_main_page') }}" class="button button-outline">Вернуться к календарю</a>
+    <div class="notes">
+        {% if notes %}
+            <h3>Заметки дня: </h3>
+            <ul>
+                {% for note in notes %}
+                    <li>{{ note[0] }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}
